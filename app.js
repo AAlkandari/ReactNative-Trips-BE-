@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
-const passport = require("passport");
+
+const path = require("path");
 
 // Required Routes
 const userRoutes = require("./apis/users/users.routes");
+const tripRoutes = require("./apis/trips/trips.routes");
 
 // Database Connection
 const connectDB = require("./db/database");
@@ -11,7 +13,7 @@ const connectDB = require("./db/database");
 // Required Middlewares
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
-
+const passport = require("passport");
 // Required Passport
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
@@ -31,6 +33,8 @@ passport.use(jwtStrategy);
 
 // Routes
 app.use("/api", userRoutes);
+app.use("/api/trips", tripRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Application running on localhost:${PORT}`));
