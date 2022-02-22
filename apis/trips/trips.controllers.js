@@ -11,7 +11,10 @@ exports.fetchTripId = async (TripId, next) => {
 
 exports.tripList = async (req, res, next) => {
   try {
-    const trips = await Trip.find().populate("title");
+    const trips = await Trip.find().populate({
+      path: "owner",
+      select: "username",
+    });
     return res.json(trips);
   } catch (error) {
     next(error);
