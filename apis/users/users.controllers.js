@@ -2,6 +2,7 @@ const User = require("../../db/models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../../config/keys");
+const Profile = require("../../db/models/Profile");
 
 const generateToken = (user) => {
   const payload = {
@@ -19,10 +20,10 @@ exports.signup = async (req, res, next) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     req.body.password = hashedPassword;
-
     const newUser = await User.create(req.body);
     const token = generateToken(newUser);
-
+    const profile = await Profile.create({ user: newUser._id });
+    await newUser.updateOne({ profile: profile._id });
     res.status(201).json({ token });
   } catch (error) {
     next(error);

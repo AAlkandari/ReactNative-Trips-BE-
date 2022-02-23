@@ -13,7 +13,7 @@ exports.tripList = async (req, res, next) => {
   try {
     const trips = await Trip.find().populate({
       path: "owner",
-      select: "username",
+      select: "profile",
     });
     return res.json(trips);
   } catch (error) {
@@ -28,7 +28,10 @@ exports.tripCreate = async (req, res, next) => {
     }
     req.body.owner = req.user._id;
     const newTrip = await Trip.create(req.body);
-    await newTrip.populate("title");
+    await newTrip.populate({
+      path: "owner",
+      select: "profile",
+    });
     return res.status(201).json(newTrip);
   } catch (error) {
     next(error);

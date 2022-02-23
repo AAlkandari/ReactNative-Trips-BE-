@@ -6,6 +6,7 @@ const path = require("path");
 // Required Routes
 const userRoutes = require("./apis/users/users.routes");
 const tripRoutes = require("./apis/trips/trips.routes");
+const profileRoutes = require("./apis/profiles/profiles.routes");
 
 // Database Connection
 const connectDB = require("./db/database");
@@ -14,6 +15,7 @@ const connectDB = require("./db/database");
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const passport = require("passport");
+
 // Required Passport
 const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
@@ -34,6 +36,7 @@ passport.use(jwtStrategy);
 // Routes
 app.use("/api", userRoutes);
 app.use("/api/trips", tripRoutes);
+app.use("/api/profiles", profileRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
 
 const PORT = 8000;
