@@ -26,11 +26,6 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   newUserProfile
 );
-router.put(
-  "/:profileId",
-  passport.authenticate("jwt", { session: false }),
-  upload.single("image"),
-  editProfile
-);
+router.put("/:profileId", upload.single("image"), editProfile);
 
 module.exports = router;
