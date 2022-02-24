@@ -41,7 +41,7 @@ exports.editProfile = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
-    const findProfile = await Profile.findOne({ user: req.body._id }).populate({
+    const findProfile = await Profile.findById(req.profile._id).populate({
       path: "user",
       select: "username",
     });
